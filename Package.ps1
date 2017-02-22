@@ -118,7 +118,7 @@
 
             Push-Location $this.Path
             Write-Verbose "Creating package"
-            &cpack
+            &choco pack
             Pop-Location
             
             $nupkg = "$($this.Path)\$($this.PackageName).$($this.LatestVersion).nupkg" 

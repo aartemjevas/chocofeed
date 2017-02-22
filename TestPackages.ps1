@@ -12,12 +12,11 @@ function Test-Package {
 
     $validExitCodes = @(0, 1605, 1614, 1641, 3010)
     $packages += ls "$PSScriptRoot\tmpPackageDir\*.nupkg" | Split-Path -Leaf | % { ($_ -replace '((\\.\\d+)+(-[^-\\.]+)?).nupkg', ':$1').Replace(':.', ':') }
-    Write-Verbose "$('=' * 60)" -ForegroundColor Magenta
+    Write-Verbose "$('=' * 60)" 
     Write-Verbose ("{0}`n{1}`n{0}`n" -f ('='*60), "TESTING FOLLOWING PACKAGES: $packages")
-    Write-Verbose "$('=' * 60)" -ForegroundColor Magenta
+    Write-Verbose "$('=' * 60)"
 
     Write-Verbose "Cleaning test results directory"
-    Remove-item 'C:\\testResults\\*' -force -recurse
     $res = @()
     foreach ($package in $packages) {
         $p = $package -split ':'; $name = $p[0]; $ver = $p[1]
@@ -48,6 +47,6 @@ function Test-Package {
 
 }
 
-null = mkdir "$PSScriptRoot\tmpPackageDir"
+$null = mkdir "$PSScriptRoot\tmpPackageDir"
 Get-NewPackage | Move-Item -Destination "$PSScriptRoot\tmpPackageDir"
 Test-Package

@@ -22,7 +22,7 @@ function Test-Package {
         $p = $package -split ':'; $name = $p[0]; $ver = $p[1]
         Write-Verbose ("{0}`n{1}`n" -f ('-'*60), "PACKAGE: $package")
 
-        Write-Verbose ('-'*60) "`n"
+        Write-Verbose ('-'*60)
 
         Write-Verbose 'TESTING INSTALL FOR' $package
 
@@ -49,4 +49,5 @@ function Test-Package {
 
 $null = mkdir "$PSScriptRoot\tmpPackageDir"
 Get-NewPackage | Move-Item -Destination "$PSScriptRoot\tmpPackageDir"
+ls "$PSScriptRoot\tmpPackageDir"
 Test-Package

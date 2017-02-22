@@ -33,8 +33,8 @@ Function Get-URL {
             else {
                 $url = "$InternalServer/$($Package.Packagename)/$($Package.Version)/$($Package.Filename32)"
                 if (!(Test-URL -URL $url)) {
-                    Write-Host "URL $url not found. Switching to $($Package.DownloadURL32)"
                     $url = $Package.DownloadURL32
+                    Write-Host "Using internal URL: $url" -ForegroundColor Magenta
                 }
             }
         }
@@ -45,8 +45,8 @@ Function Get-URL {
             else {
                  $url = "$InternalServer/$($Package.Packagename)/$($Package.Version)/$($Package.Filename64)"
                 if (!(Test-URL -URL $url)) {
-                     Write-Host "URL $url not found. Switching to $($Package.DownloadURL64)"
                     $url = $Package.DownloadURL64
+                    Write-Host "Using internal URL: $url" -ForegroundColor Magenta
                 }
             }        
         }

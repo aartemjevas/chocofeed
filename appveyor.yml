@@ -1,3 +1,7 @@
+# environment variables
+environment:
+  installres: ''
+
 install:
   - ps: Install-Module Pester -Force
   - ps: Install-Module PSScriptAnalyzer -Force
@@ -5,4 +9,5 @@ install:
 build: false
 
 test_script:
-  - ps: .\StartUpdate.ps1; .\TestPackages.ps1
+  - ps: $env:installres = .\StartUpdate.ps1; .\TestPackages.ps1
+  - ps: $env:installres 

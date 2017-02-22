@@ -34,4 +34,4 @@ foreach ($path in (Get-ChildItem -Path "$PSScriptRoot\packages" -Directory)) {
        $testRes = Test-Package -Path $path.fullname
     } 
 }
-Write-Output $testRes
+

@@ -1,7 +1,3 @@
-# environment variables
-environment:
-  installres: ''
-
 install:
   - ps: Install-Module Pester -Force
   - ps: Install-Module PSScriptAnalyzer -Force
@@ -9,7 +5,8 @@ install:
 build: false
 
 test_script:
-  - ps: .\StartUpdate.ps1; .\TestPackages.ps1
+  - ps: .\StartUpdate.ps1; $installRes =  .\TestPackages.ps1
+  - ps: if ([string]::IsNullOrEmpty($installRes)) {Add-AppveyorMessage "$($installRes | ft -auto)"}
 
   
 notifications:

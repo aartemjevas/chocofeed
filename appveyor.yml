@@ -5,8 +5,9 @@ install:
 build: false
 
 test_script:
-  - ps: .\StartUpdate.ps1; $installRes =  .\TestPackages.ps1
-  - ps: if ([string]::IsNullOrEmpty($installRes)) {Add-AppveyorMessage "$($installRes | ft -auto)"}
+  - ps: . .\StartUpdate.ps1
+  - ps: . .\TestPackages.ps1
+  - ps: if ([string]::IsNullOrEmpty($testRes)) {Add-AppveyorMessage "$($testRes | ft -auto)"}
 
   
 notifications:

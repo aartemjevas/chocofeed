@@ -35,5 +35,3 @@ foreach ($path in (Get-ChildItem -Path "$PSScriptRoot\packages" -Directory)) {
     } 
 }
 Write-Output $testRes
-
-Set-AppveyorBuildVariable -Name installres -Value $testRes

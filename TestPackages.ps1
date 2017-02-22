@@ -9,7 +9,8 @@ Function Test-Package {
         Write-Verbose ('-'*60)
         $LastExitCode = 0
         $validExitCodes = @(0, 1605, 1614, 1641, 3010)
-        Invoke-Expression "choco install $($package.Packagename) --version $($package.Version) --source $Path -yf"
+        $chocoOutput = &choco install $($package.Packagename) --version $($package.Version) --source $Path -yf
+        Write-Verbose $chocoOutput
         if ($validExitCodes -contains $LastExitCode) {
             $res += [pscustomobject]@{  'Packagename'= $($package.Packagename);
                                         'Status' = 'success'; 

@@ -11,13 +11,19 @@ Function Test-URL {
      ErrorAction = 'stop'
      TimeoutSec = 5
     }
-    $test = Invoke-WebRequest @paramHash
-    if ($test.statuscode -ne 200) {
+    try {
+        $test = Invoke-WebRequest @paramHash
+        if ($test.statuscode -ne 200) {
+            Write-Output $false
+        }
+        else {
+            Write-Output $True
+        }
+    } 
+    catch {
         Write-Output $false
     }
-    else {
-        Write-Output $True
-    }
+
 }
 Function Get-URL {
     [CmdletBinding()]
@@ -34,7 +40,10 @@ Function Get-URL {
                 $url = "$InternalServer/$($Package.Packagename)/$($Package.Version)/$($Package.Filename32)"
                 if (!(Test-URL -URL $url)) {
                     $url = $Package.DownloadURL32
-                    Write-Host "Using internal URL: $url" -ForegroundColor Magenta
+                   
+                }
+                else {
+                     Write-Host "Using internal URL: $url" -ForegroundColor Magenta
                 }
             }
         }
@@ -46,7 +55,9 @@ Function Get-URL {
                  $url = "$InternalServer/$($Package.Packagename)/$($Package.Version)/$($Package.Filename64)"
                 if (!(Test-URL -URL $url)) {
                     $url = $Package.DownloadURL64
-                    Write-Host "Using internal URL: $url" -ForegroundColor Magenta
+                }
+                else {
+                     Write-Host "Using internal URL: $url" -ForegroundColor Magenta
                 }
             }        
         }

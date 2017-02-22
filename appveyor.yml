@@ -5,9 +5,4 @@ install:
 build: false
 
 test_script:
-  - ps: .\StartUpdate.ps1
-  - PS: .\TestPackages.ps1
-
-  
-  
-      
+  - ps: .\StartUpdate.ps1; .\TestPackages.ps1

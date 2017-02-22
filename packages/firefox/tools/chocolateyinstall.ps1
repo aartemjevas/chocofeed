@@ -95,7 +95,7 @@ if ($alreadyInstalled) {
     packageName   = $package.Packagename
     fileType      = $package.Filetype
     url           = $fURL
-    checksum      = $Checksum
+    checksum      = $fChecksum
     checksumType  = 'md5'
     silentArgs    = "-ms"
     validExitCodes= @(0, 3010, 1641)

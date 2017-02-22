@@ -33,6 +33,7 @@ Function Get-URL {
             else {
                 $url = "$InternalServer/$($Package.Packagename)/$($Package.Version)/$($Package.Filename32)"
                 if (!(Test-URL -URL $url)) {
+                    Write-Verbose "URL $url not found. Switching to $($Package.DownloadURL32)"
                     $url = $Package.DownloadURL32
                 }
             }
@@ -44,6 +45,7 @@ Function Get-URL {
             else {
                  $url = "$InternalServer/$($Package.Packagename)/$($Package.Version)/$($Package.Filename64)"
                 if (!(Test-URL -URL $url)) {
+                     Write-Verbose "URL $url not found. Switching to $($Package.DownloadURL64)"
                     $url = $Package.DownloadURL64
                 }
             }        
@@ -62,15 +64,15 @@ Function Get-InternalServer {
         $ip = ($netAdapters.IPAddress | Select-String -Pattern "10.10*").tostring().trim()
 
         switch -Wildcard ($ip){
-            "10.101*" { $URL = "http://riga.choco-cache.local" }
-            "10.102*" { $URL = "http://vilnius.choco-cache.local" }
-            "10.103*" { $URL = "http://kaunas.choco-cache.local" }
-            "10.104*" { $URL = "http://tallinn.choco-cache.local" }
-            "10.105*" { $URL = "http://tartu.choco-cache.local" }
-            "10.106*" { $URL = "http://kiev.choco-cache.local" }
-            "10.107*" { $URL = "http://malaga.choco-cache.local" }
-            "10.108*" { $URL = "http://malaga.choco-cache.local" }
-            "10.109*" { $URL = "http://alicante.choco-cache.local" }
+            "10.101*" { $URL = "http://riga.choco-cache.local/files" }
+            "10.102*" { $URL = "http://vilnius.choco-cache.local/files" }
+            "10.103*" { $URL = "http://kaunas.choco-cache.local/files" }
+            "10.104*" { $URL = "http://tallinn.choco-cache.local/files" }
+            "10.105*" { $URL = "http://tartu.choco-cache.local/files" }
+            "10.106*" { $URL = "http://kiev.choco-cache.local/files" }
+            "10.107*" { $URL = "http://malaga.choco-cache.local/files" }
+            "10.108*" { $URL = "http://malaga.choco-cache.local/files" }
+            "10.109*" { $URL = "http://alicante.choco-cache.local/files" }
             default { $URL = $null }
         }
 

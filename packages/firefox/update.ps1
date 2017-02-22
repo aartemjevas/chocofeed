@@ -1,4 +1,4 @@
-[string]$PackageJSON = Get-Content $PSScriptRoot\package.json -Encoding UTF8 -ErrorAction Stop
+[string]$PackageJSON = Get-Content $PSScriptRoot\tools\package.json -Encoding UTF8 -ErrorAction Stop
 $packageSettings = ConvertFrom-Json $PackageJSON
 
 $releases = 'https://www.mozilla.org/en-US/firefox/all/?q=English%20(US)'

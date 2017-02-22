@@ -28,7 +28,7 @@
         if (Test-Path $Path) {
             $updateScript = Join-Path $Path 'update.ps1'
             if (Test-Path $updateScript) {           
-               $packageJson = ConvertFrom-Json -InputObject $(Get-Content "$Path\package.json" | Out-String)
+               $packageJson = ConvertFrom-Json -InputObject $(Get-Content "$Path\tools\package.json" | Out-String)
 
                Write-Verbose "Launching $updateScript"
                $update = &$updateScript
@@ -44,7 +44,7 @@
                $this.Checksum32 = $packageJson.Checksum32
                $this.Checksum64 = $packageJson.Checksum64
                $this.Path = $Path
-               $this.JsonFile = "$Path\package.json"
+               $this.JsonFile = "$Path\tools\package.json"
                $this.NuspecFile = $(Get-ChildItem -Path $Path -Filter "*.nuspec").FullName
                $this.CurrentJsonContent = Get-Content -Path $this.JsonFile
                $this.CurrentNuspecContent = Get-Content -Path $this.NuspecFile
@@ -104,9 +104,9 @@
             $this.NewJsonContent = ($this.NewJsonContent).Replace(  "`"Checksum64`": `"$($this.Checksum64)`"",
                                                                     "`"Checksum64`": `"$Chcm64`"")
             $this.NewJsonContent = ($this.NewJsonContent).Replace(  "`"DownloadURL32`": `"$($this.CurrentDownloadURL32)`"",
-                                                                    "`"DownloadURL32`": `"$this.DownloadUrl32`"")
+                                                                    "`"DownloadURL32`": `"$($this.DownloadUrl32)`"")
             $this.NewJsonContent = ($this.NewJsonContent).Replace(  "`"DownloadURL64`": `"$($this.CurrentDownloadURL64)`"",
-                                                                    "`"DownloadURL64`": `"$this.DownloadUrl64`"")
+                                                                    "`"DownloadURL64`": `"$($this.DownloadUrl64)`"")
 
             Write-Verbose "Updating $($this.JsonFile)"
             $this.NewJsonContent | Out-File $this.JsonFile

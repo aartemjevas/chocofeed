@@ -60,9 +60,7 @@ Function Get-InternalServer {
     param()
 
     try {
-        $netAdapters = Get-CimInstance Win32_NetworkAdapterConfiguration -ErrorAction Stop 
-        $ip = ($netAdapters.IPAddress | Select-String -Pattern "10.10*").tostring().trim()
-
+        $ip = (Get-WmiObject -Class Win32_NetworkAdapterConfiguration -Filter 'ipenabled = "true"').IPAddress -match "^10.10"
         switch -Wildcard ($ip){
             "10.101*" { $URL = "http://riga.choco-cache.local/files" }
             "10.102*" { $URL = "http://vilnius.choco-cache.local/files" }

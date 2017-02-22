@@ -1,53 +1,36 @@
-Function Get-NewPackage {
+
+Function Test-Package {
     [CmdletBinding()]
-    param()
-    
-    $nupkg = Get-ChildItem -Path "$PSScriptRoot\packages" -Filter "*.nupkg" -File -Recurse
-    Write-Output $nupkg  
-}
-
-function Test-Package {
-
-    #https://github.com/majkinetor/au
-
-    $validExitCodes = @(0, 1605, 1614, 1641, 3010)
-    $packages += ls "$PSScriptRoot\tmpPackageDir\*.nupkg" | Split-Path -Leaf | % { ($_ -replace '((\\.\\d+)+(-[^-\\.]+)?).nupkg', ':$1').Replace(':.', ':') }
-    Write-Verbose "$('=' * 60)" 
-    Write-Verbose ("{0}`n{1}`n{0}`n" -f ('='*60), "TESTING FOLLOWING PACKAGES: $packages")
-    Write-Verbose "$('=' * 60)"
-
-    Write-Verbose "Cleaning test results directory"
-    $res = @()
-    foreach ($package in $packages) {
-        $p = $package -split ':'; $name = $p[0]; $ver = $p[1]
-        Write-Verbose ("{0}`n{1}`n" -f ('-'*60), "PACKAGE: $package")
-
+    param([string]$Path)
+    try {
+        $package = Get-Content $Path\tools\package.json | ConvertFrom-Json
         Write-Verbose ('-'*60)
-
-        Write-Verbose 'TESTING INSTALL FOR' $package
-
-        $choco_cmd = "choco install -fy $name --allow-downgrade"
-        $choco_cmd += if ($ver) { " --version $ver" }
-        $choco_cmd += ' --source "''{0}''"' -f "$PSScriptRoot\tmpPackageDir"
-
-        Write-Verbose "CMD: $choco_cmd"
+        Write-Verbose "TESTING $($package.Packagename) v$($package.Version)"
+        Write-Verbose ('-'*60)
         $LastExitCode = 0
-        iex $choco_cmd
-        $exitCode = $LastExitCode
-
-        if ($validExitCodes -contains $exitCode) {
-            $res += [pscustomobject]@{'Packagename'= $package ;'Status' = 'success'}
+        $validExitCodes = @(0, 1605, 1614, 1641, 3010)
+        Invoke-Expression "choco install $($package.Packagename) --version $($package.Version) --source $Path -yf"
+        if ($validExitCodes -contains $LastExitCode) {
+            $res += [pscustomobject]@{'Packagename'= $package ;'Status' = 'success'; exitcode = $LastExitCode}
             Write-Verbose "Exit code for $package was $exitCode"
         } else {
-            $res += [pscustomobject]@{'Packagename'= $package ;'Status' = 'failed'}
+            $res += [pscustomobject]@{'Packagename'= $package.Packagename ;'Status' = 'failed'; existcode = $LastExitCode}
         }
- 
         Write-Output $res
+    } 
+    catch {
+     
     }
+    
+
 
 }
 
-$null = mkdir "$PSScriptRoot\tmpPackageDir"
-Get-NewPackage | Move-Item -Destination "$PSScriptRoot\tmpPackageDir"
-ls "$PSScriptRoot\tmpPackageDir"
-Test-Package
+foreach ($path in (Get-ChildItem -Path "$PSScriptRoot\packages" -Directory)) {
+    Write-Verbose $path.name
+    if (Test-Path "$($path.fullname)\*.nupkg") {
+        Test-Package -Path $path.fullname
+    }
+
+     
+}

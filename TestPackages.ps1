@@ -14,15 +14,13 @@ Function Test-Package {
             $res += [pscustomobject]@{'Packagename'= $package ;'Status' = 'success'; exitcode = $LastExitCode}
             Write-Verbose "Exit code for $package was $exitCode"
         } else {
-            $res += [pscustomobject]@{'Packagename'= $package.Packagename ;'Status' = 'failed'; existcode = $LastExitCode}
+            $res += [pscustomobject]@{'Packagename'= $($package.Packagename) ;'Status' = 'failed'; existcode = $LastExitCode}
         }
         Write-Output $res
     } 
     catch {
      
     }
-    
-
 
 }
 

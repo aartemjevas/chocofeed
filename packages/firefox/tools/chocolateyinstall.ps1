@@ -94,7 +94,7 @@ if ($alreadyInstalled) {
   $packageArgs = @{
     packageName   = $package.Packagename
     fileType      = $package.Filetype
-    url           = $fURL
+    url           = $url64 #changed to 64bit as 32bit doesnt worked in appveyor
     checksum      = $fChecksum
     checksumType  = 'md5'
     silentArgs    = "-ms"

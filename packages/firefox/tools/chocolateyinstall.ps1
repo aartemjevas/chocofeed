@@ -85,7 +85,7 @@ if ($alreadyInstalled) {
   )
 } else {
     if ((Get-32bitOnlyInstalled) -or (Get-ProcessorBits 32)) {
-      $fURL = $url32
+      $fURL = $url
       $fChecksum = $package.Checksum32
     } else {
       $fURL = $url64
@@ -94,9 +94,13 @@ if ($alreadyInstalled) {
   $packageArgs = @{
     packageName   = $package.Packagename
     fileType      = $package.Filetype
-    url           = $url64 #changed to 64bit as 32bit doesnt worked in appveyor
-    checksum      = $fChecksum
-    checksumType  = 'md5'
+    url           = $url
+    url64bit      = $url64
+    softwareName  = $package.softwareName
+    checksum      = $package.Checksum32
+    checksumType  = 'md5' 
+    checksum64    = $package.Checksum64
+    checksumType64= 'md5' 
     silentArgs    = "-ms"
     validExitCodes= @(0, 3010, 1641)
   }

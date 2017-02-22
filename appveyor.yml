@@ -9,5 +9,14 @@ install:
 build: false
 
 test_script:
-  - ps: $env:installres = .\StartUpdate.ps1; .\TestPackages.ps1
-  - ps: $env:installres 
+  - ps: .\StartUpdate.ps1; .\TestPackages.ps1
+
+notifications:
+
+  # Email
+  - provider: Email
+    to:
+      - aartemjevas@gmail.com
+    subject: 'chocofeed build'                  # optional
+    message: "{{installres}}"    # optional
+    on_build_status_changed: true

@@ -27,10 +27,13 @@ Function Test-Package {
     }
 
 }
-
+$testRes = @()
 foreach ($path in (Get-ChildItem -Path "$PSScriptRoot\packages" -Directory)) {
     Write-Verbose $path.name
     if (Test-Path "$($path.fullname)\*.nupkg") {
-        Test-Package -Path $path.fullname
+       $testRes = Test-Package -Path $path.fullname
     } 
 }
+Write-Output $testRes
+
+Set-AppveyorBuildVariable -Name installres -Value $testRes

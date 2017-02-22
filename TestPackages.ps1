@@ -31,7 +31,7 @@ $testRes = @()
 foreach ($path in (Get-ChildItem -Path "$PSScriptRoot\packages" -Directory)) {
     Write-Verbose $path.name
     if (Test-Path "$($path.fullname)\*.nupkg") {
-       $testRes = Test-Package -Path $path.fullname
+       $testRes += Test-Package -Path $path.fullname
     } 
 }
 

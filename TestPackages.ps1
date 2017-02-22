@@ -2,7 +2,7 @@ Function Get-NewPackage {
     [CmdletBinding()]
     param()
     
-    $nupkg = Get-ChildItem -Path $PSScriptRoot\packages -Filter "*.nupkg" -File
+    $nupkg = Get-ChildItem -Path "$PSScriptRoot\packages" -Filter "*.nupkg" -File -Recurse
     Write-Output $nupkg  
 }
 

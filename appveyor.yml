@@ -6,7 +6,7 @@ build: false
 
 test_script:
   - ps: . .\StartUpdate.ps1
-  - ps: . .\TestPackages.ps1
+  - ps: $testRes = .\TestPackages.ps1
   - ps: if (!([string]::IsNullOrEmpty($testRes))) {$testRes; Add-AppveyorMessage "$($testRes | ft -auto| out-string)"}
 
   

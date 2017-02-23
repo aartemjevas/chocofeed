@@ -1,7 +1,7 @@
 ﻿$ErrorActionPreference = 'Stop'; # stop on all errors
-[System.Net.WebRequest]::DefaultWebProxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials 
-Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/aartemjevas/chocofeed/master/helpers.ps1'))
+
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+. $toolsDir\helpers.ps1
 
 $Package = Get-Content "$toolsDir\Package.json" | Out-String | ConvertFrom-Json 
 $url = Get-URL -Arch 32
@@ -94,8 +94,8 @@ if ($alreadyInstalled) {
   $packageArgs = @{
     packageName   = $package.Packagename
     fileType      = $package.Filetype
-    url           = $url
-    url64bit      = $url64
+    url           = "$url"
+    url64bit      = "$url64"
     softwareName  = $package.softwareName
     checksum      = $package.Checksum32
     checksumType  = 'md5' 

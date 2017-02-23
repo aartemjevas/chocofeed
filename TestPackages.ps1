@@ -12,12 +12,12 @@ Function Test-Package {
         $chocoOutput = &choco install $($package.Packagename) --version $($package.Version) --source $Path -yf
         Write-Verbose $chocoOutput
         if ($validExitCodes -contains $LastExitCode) {
-            $res += [pscustomobject]@{  'Packagename'= $($package.Packagename);
+            $res = [pscustomobject]@{  'Packagename'= $($package.Packagename);
                                         'Status' = 'success'; 
                                         'exitcode' = $LastExitCode}
             Write-Verbose "Exit code for $package was $exitCode"
         } else {
-            $res += [pscustomobject]@{  'Packagename'= $($package.Packagename);
+            $res = [pscustomobject]@{  'Packagename'= $($package.Packagename);
                                         'Status' = 'failed'; 
                                         'existcode' = $LastExitCode}
         }
@@ -36,3 +36,4 @@ foreach ($path in (Get-ChildItem -Path "$PSScriptRoot\packages" -Directory)) {
     } 
 }
 
+Write-Output $testRes

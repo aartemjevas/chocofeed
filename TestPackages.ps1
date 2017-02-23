@@ -9,31 +9,29 @@ Function Test-Package {
         Write-Verbose ('-'*60)
         $LastExitCode = 0
         $validExitCodes = @(0, 1605, 1614, 1641, 3010)
-        $chocoOutput = &choco install $($package.Packagename) --version $($package.Version) --source $Path -yf
-        Write-Verbose $chocoOutput
+        Invoke-Expression "choco install $($package.Packagename) --version $($package.Version) --source $Path -yf"
         if ($validExitCodes -contains $LastExitCode) {
-            $res = [pscustomobject]@{  'Packagename'= $($package.Packagename);
+            Write-Output "exit code was valid"
+            $script:testRes += [pscustomobject]@{  'Packagename'= $($package.Packagename);
                                         'Status' = 'success'; 
                                         'exitcode' = $LastExitCode}
-            Write-Verbose "Exit code for $package was $exitCode"
         } else {
-            $res = [pscustomobject]@{  'Packagename'= $($package.Packagename);
+            Write-Output "exit code was not valid"
+            $script:testRes += [pscustomobject]@{  'Packagename'= $($package.Packagename);
                                         'Status' = 'failed'; 
                                         'existcode' = $LastExitCode}
         }
-        Write-Output $res
     } 
     catch {
      
     }
 
 }
-$testRes = @()
+
 foreach ($path in (Get-ChildItem -Path "$PSScriptRoot\packages" -Directory)) {
     Write-Verbose $path.name
     if (Test-Path "$($path.fullname)\*.nupkg") {
-       $testRes += Test-Package -Path $path.fullname
+       $chocoOutput = Test-Package -Path $path.fullname
+       Write-Verbose $($chocoOutput | Out-String)
     } 
 }
-
-Write-Output $testRes

@@ -20,7 +20,7 @@ notifications:
         <ul>
         {{#jobs}}
           {{#messages}}
-            <li>{{message}}</li>
+            {{message}}
           {{/messages}}
         {{/jobs}}
         </ul>

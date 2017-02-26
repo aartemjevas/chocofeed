@@ -1,4 +1,5 @@
-﻿Import-Module $PSScriptRoot\ChocoPackageUpdater\ChocoPackageUpdater.psm1
+﻿$VerbosePreference = 'continue'
+Import-Module $PSScriptRoot\ChocoPackageUpdater\ChocoPackageUpdater.psm1
 
 $packages = @()
 $env:ChocoPackageSource = 'https://www.myget.org/F/chocofeed/api/v2'

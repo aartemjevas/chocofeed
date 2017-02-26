@@ -2,7 +2,7 @@
 try {
     $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
     . $toolsDir\helpers.ps1
-    $Package = Get-Content "$toolsDir\Package.json" | Out-String | ConvertFrom-Json 
+    $Package = Get-Content "$toolsDir\package.json" | Out-String | ConvertFrom-Json 
     $url = Get-URL -Arch 32
     $url64 = Get-URL -Arch 64
 
@@ -27,6 +27,6 @@ try {
 } 
 
 catch {
-    throw $_.expression.message
+    throw $_.exception.message
 }
 

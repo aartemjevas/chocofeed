@@ -4,7 +4,7 @@ $url32 = $download_page.links | Where-object title -eq 'Download for Windows in 
 $url64 = $download_page.links | Where-object title -eq 'Download for Windows 64-bit in English (US)' | Select-object -expand href
 [string]$version = ($url32 -split '-')[1]
 
-return [PSObject]@{ 'LatestVersion' = $version; 
+return [PScustomObject]@{ 'Version' = $version; 
                     'DownloadUrl32' = $url32;
                     'DownloadUrl64' = $url64 }
 

@@ -11,8 +11,8 @@ try {
     $packageArgs = @{
       packageName   = $Package.Packagename
       fileType      = 'msi'
-      url           = $url
-      url64bit      = $url64
+      url           = "$url"
+      url64bit      = "$url64"
       softwareName  = "7-zip*"
       checksum      = $Package.Checksum32
       checksumType  = 'md5' 
